@@ -18,10 +18,27 @@
 		
 	}
 	
+	$keyword = "";
+	
+	//aadressireal on keyword
+	if(isset($_GET["keyword"])){
+		
+		
+		//otsin
+		$keyword = $_GET["keyword"];
+		$array_of_cars = getCarData($keyword);
+		
+	}else{
+		
+		//küsin kõik andmed
+		
+		//käivitan funktsiooni
+		$array_of_cars = getCarData();
+		
+	}
 	
 		
-	//käivitan funktsiooni
-	$array_of_cars = getCarData();
+	
 	
 	//trükin välja esimese auto
 	//echo $array_of_cars[0]->id." ".$array_of_cars[0]->plate;
@@ -31,6 +48,14 @@
 ?>
 
 <h2>Tabel</h2>
+
+<form action="table.php" method="get" >
+	<input type="search" name="keyword" >
+	<input type="submit" >
+</form>
+
+
+
 <table border=1 >
 	<tr>
 		<th>id</th>
@@ -38,6 +63,7 @@
 		<th>numbrimärk</th>
 		<th>värvus</th>
 		<th>X</th>
+		<th>edit</th>
 		<th>edit</th>
 		
 	</tr>
@@ -76,6 +102,7 @@
 			echo"<td>".$array_of_cars[$i]->color."</td>";
 			echo"<td><a href='?delete=".$array_of_cars[$i]->id."'>X</a>";
 			echo"<td><a href='?edit=".$array_of_cars[$i]->id."'>edit</a>";
+			echo"<td><a href='edit.php?edit_id=".$array_of_cars[$i]->id."'>edit.php</a>";
 			echo"</tr>";
 			
 			}

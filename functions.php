@@ -4,11 +4,31 @@
 	require_once("../configglobal.php");
 	$database = "if15_kadri";
 	
-	function getCarData(){
+	//annan vaikeväärtuse
+	function getCarData($keyword=""){
+		
+		$search = "%%";
+		
+		
+		//kas otsisõna on tühi
+		if($keyword == ""){
+			
+			//ei otsi midagi
+			echo "Ei otsi";
+			
+		}else{
+			
+			//otsin
+			echo "Osin ".$keyword;
+			$search = "%".$keyword."%";
+		}
+		
+		
 		
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		
-		$stmt = $mysqli->prepare("SELECT id, user_id, number_plate, color from car_plates WHERE deleted IS NULL ");
+		$stmt = $mysqli->prepare("SELECT id, user_id, number_plate, color from car_plates WHERE deleted IS NULL AND (number_plate LIKE ? AND color LIKE ?)");
+		$stmt->bind_param("ss", $search, $search);
 		$stmt->bind_result($id, $user_id_from_database, $number_plate, $color);
 		$stmt->execute();
 		
